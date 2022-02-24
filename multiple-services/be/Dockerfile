@@ -16,7 +16,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -ldflags "-w -s -X main.version=${version}" -o api .
+RUN go build -ldflags "-w -s -X main.version=${version}" -o api main.go
 
 FROM alpine
 
