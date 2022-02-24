@@ -1,0 +1,39 @@
+version: "3.0"
+
+services:
+  fe:
+    build:
+      context: fe
+      dockerfile: Dockerfile
+      args:
+        - "API_URL_FOO=http://0.0.0.0:5000"
+        - "API_URL_BAR=http://172.20.0.4:8080"
+    ports:
+      - "1337:3000"
+    networks:
+      dwms:
+
+  be-foo:
+    image: "stefanoschrs/docker-workshop-multiple-services-be"
+    environment:
+      - "DATA=foo-data"
+    ports:
+      - "5000:8080"
+    networks:
+      dwms:
+
+  be-bar:
+    image: "stefanoschrs/docker-workshop-multiple-services-be"
+    environment:
+      - "DATA=bar-data"
+    ports:
+      - "7000:8080"
+    networks:
+      dwms:
+        ipv4_address: 172.20.0.4
+
+networks:
+  dwms:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
